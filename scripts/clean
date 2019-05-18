@@ -1,0 +1,5 @@
+#! /bin/bash
+
+trash ./kaggle-run.egg-info
+trash ./dist
+trash ./build
