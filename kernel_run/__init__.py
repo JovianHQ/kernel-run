@@ -49,6 +49,4 @@ def create_kernel(path_or_url, public=False, no_browser=False, new=False,
     if not no_browser:
         webbrowser.open_new_tab(kernel_url)
 
-    print(res_json)
-
     return res_json
