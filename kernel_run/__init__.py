@@ -4,14 +4,15 @@ import string
 import requests
 import webbrowser
 from kernel_run.utils.creds import read_creds
-from kernel_run.utils.misc import url_filename, is_url
+from kernel_run.utils.misc import url_filename, is_url, DEFAULT_PREFIX
 from kernel_run.utils.network import download_rawlink, push_kernel
 from kernel_run.utils.jupyter import read_nbfile
 
 API_URL = 'https://www.kaggle.com/api/v1'
 
 
-def create_kernel(path_or_url, public=False, no_browser=False, new=False, prefix='kr/', creds_path=None):
+def create_kernel(path_or_url, public=False, no_browser=False, new=False,
+                  strip_output=False, prefix=DEFAULT_PREFIX, creds_path=None):
     """Instantly create and run a Kaggle kernel from a Jupyter notebook (local file or URL)
 
     Arguments:
@@ -24,14 +25,15 @@ def create_kernel(path_or_url, public=False, no_browser=False, new=False, prefix
             5-letter string at the end of the title
         prefix (string, optional): A prefix added to the Kernel title, to indicate that
             the Kernel was created using kernel-run
-        creds_path (string, optional): Path to the 'kaggle.json' credentials file (default to '~/.kaggle/kaggle.json')
-
+        creds_path (string, optional): Path to the 'kaggle.json' credentials file 
+            (defaults to '~/.kaggle/kaggle.json')
+        strip_output (bool, optional): Clear output cells before uploading notebook.
     """
     creds = read_creds(creds_path)
 
     # Read notebook & filename
     if is_url(path_or_url):
-        nbtext = download_rawlink(path_or_url)
+        nbtext = download_rawlink(path_or_url, strip_output)
         fname = url_filename(path_or_url)
     else:
         fname, nbtext = read_nbfile(path_or_url)
@@ -46,5 +48,7 @@ def create_kernel(path_or_url, public=False, no_browser=False, new=False, prefix
     # Launch browser window to edit created kernel
     if not no_browser:
         webbrowser.open_new_tab(kernel_url)
+
+    print(res_json)
 
     return res_json

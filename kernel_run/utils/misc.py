@@ -4,6 +4,8 @@ import re
 import urlparse
 import os
 
+DEFAULT_PREFIX = 'kr/'
+
 
 def gen_hash(len=5):
     """Create a random alphanumeric hash of a given length"""

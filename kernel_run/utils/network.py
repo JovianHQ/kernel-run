@@ -1,5 +1,5 @@
 import requests
-from kernel_run.utils.jupyter import strip_outputs
+from kernel_run.utils.jupyter import sanitize_nb
 from kernel_run.utils.misc import gen_hash, slugify
 
 API_URL = 'https://www.kaggle.com/api/v1'
@@ -15,12 +15,11 @@ def _pretty(res):
     return '(HTTP ' + str(res.status_code) + ') ' + res.content
 
 
-def download_rawlink(link):
+def download_rawlink(link, strip_output=False):
     """Download a Jupyter notebook from a raw file link"""
     res = requests.get(link)
     if res.status_code == 200:
-        nbtext = strip_outputs(res.text)
-        return nbtext
+        return sanitize_nb(res.text, strip_output)
     else:
         raise ApiError(_pretty(res))
 

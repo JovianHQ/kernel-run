@@ -14,14 +14,14 @@ def _truncate(text, limit=200):
     return text
 
 
-def strip_outputs(nbtext):
+def sanitize_nb(nbtext, strip_output=False):
     """Parse text as a Jupyter notebook and remove outputs"""
     try:
         nbjson = json.loads(nbtext)
     except:
         raise JupyterError(
             'Failed to parse Jupyter notebook:\n' + _truncate(nbtext))
-    if 'cells' in nbjson:
+    if strip_output and 'cells' in nbjson:
         for cell in nbjson['cells']:
             if 'outputs' in cell and cell['cell_type'] == 'code':
                 cell['outputs'] = []
@@ -36,7 +36,7 @@ def _invalid_msg(fname):
     return """ERROR: Invalid file '""" + fname + """'. Please provide a Jupyter notebook with '.ipynb' extension."""
 
 
-def read_nbfile(path):
+def read_nbfile(path, strip_output=False):
     # Check if file exists
     if not os.path.exists(path):
         raise JupyterError(_notfound_msg(path))
@@ -48,4 +48,4 @@ def read_nbfile(path):
 
     # Read & strip outputs
     with open(path) as f:
-        return fname, strip_outputs(f.read())
+        return fname, sanitize_nb(f.read(), strip_output)
