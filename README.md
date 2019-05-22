@@ -2,6 +2,8 @@
 
 Instantly create and run a Kaggle kernel from any Jupyter notebook (local file or URL).
 
+![kaggle-run-demo](https://i.imgur.com/KsrIYH3.gif)
+
 ```
 $ kernel-run path/to/notebook.ipynb
 Kernel created successfully: https://www.kaggle.com/aakashns/kr-notebook/edit
@@ -63,14 +65,15 @@ You can also use the library form a Python script or Jupyter notebook. It can be
 ```python
 from kernel_run import create_kernel
 
-create_kernel()
+create_kernel('path/to/notebook.ipynb', public=True, no_browser=True)
+# Kernel created successfully: https://www.kaggle.com/aakashns/kr-notebook/edit
 ```
 
 The arguments to `create_kernel` are identical to the CLI options:
 
 ```python
 def create_kernel(path_or_url, public=False, no_browser=False, new=False,
-                  strip_output=False, prefix=DEFAULT_PREFIX, creds_path=None):
+                  strip_output=False, prefix='kr/', creds_path=None):
     """Instantly create and run a Kaggle kernel from a Jupyter notebook (local file or URL)
 
     Arguments:
