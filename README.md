@@ -5,6 +5,8 @@ Instantly create and run a Kaggle kernel from any Jupyter notebook (local file o
 ![kaggle-run-demo](https://i.imgur.com/KsrIYH3.gif)
 
 ```
+$ pip install kernel-run --upgrade
+
 $ kernel-run path/to/notebook.ipynb
 Kernel created successfully: https://www.kaggle.com/aakashns/kr-notebook/edit
 
