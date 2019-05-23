@@ -14,7 +14,7 @@ DEFAULT_PREFIX = 'kr/'
 
 def gen_hash(len=5):
     """Create a random alphanumeric hash of a given length"""
-    return ''.join([random.choice(string.ascii_lowercase + string.digits) for _ in xrange(len)])
+    return ''.join([random.choice(string.ascii_lowercase + string.digits) for _ in range(len)])
 
 
 def slugify(title):
