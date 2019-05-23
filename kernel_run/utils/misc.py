@@ -1,8 +1,13 @@
 import random
 import string
 import re
-import urlparse
 import os
+
+try:
+    from urllib.parse import urlparse
+except ImportError:
+    from urlparse import urlparse
+
 
 DEFAULT_PREFIX = 'kr/'
 
@@ -34,7 +39,7 @@ def is_url(str):
 
 def url_filename(url):
     """Extract the filename from URL (if present)"""
-    path = urlparse.urlparse(url).path
+    path = urlparse(url).path
     fname = os.path.basename(path)
     if not fname:
         fname = "notebook-" + gen_hash()
