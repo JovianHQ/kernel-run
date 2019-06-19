@@ -1,4 +1,5 @@
 import requests
+import six
 
 from kernel_run.utils.misc import gen_hash, slugify
 
@@ -12,7 +13,12 @@ class ApiError(Exception):
 
 def _pretty(res):
     """Make a human readable output from an HTML response"""
-    return '(HTTP ' + str(res.status_code) + ') ' + str(res.content)
+    if isinstance(res.content, six.binary_type):
+        content = res.content.decode("utf-8")
+    else:
+        content = res.content
+
+    return '(HTTP ' + str(res.status_code) + ') ' + content
 
 
 def download_rawlink(link):
