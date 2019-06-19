@@ -1,12 +1,14 @@
-import os
 import json
+import os
 import string
-import requests
 import webbrowser
+
+import requests
+
 from kernel_run.utils.creds import read_creds
-from kernel_run.utils.misc import url_filename, is_url, DEFAULT_PREFIX
+from kernel_run.utils.jupyter import read_nbfile, sanitize_nb
+from kernel_run.utils.misc import DEFAULT_PREFIX, is_url, url_filename
 from kernel_run.utils.network import download_rawlink, push_kernel
-from kernel_run.utils.jupyter import read_nbfile
 
 API_URL = 'https://www.kaggle.com/api/v1'
 
@@ -33,10 +35,12 @@ def create_kernel(path_or_url, public=False, no_browser=False, new=False,
 
     # Read notebook & filename
     if is_url(path_or_url):
-        nbtext = download_rawlink(path_or_url, strip_output)
+        nbtext = download_rawlink(path_or_url)
         fname = url_filename(path_or_url)
     else:
         fname, nbtext = read_nbfile(path_or_url)
+
+    nbtext = sanitize_nb(nbtext, strip_output)
 
     # Create the kernel
     res_json = push_kernel(nbtext, fname, creds, public, new, prefix)

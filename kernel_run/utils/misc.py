@@ -1,7 +1,7 @@
-import random
-import string
-import re
 import os
+import random
+import re
+import string
 
 try:
     from urllib.parse import urlparse

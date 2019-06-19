@@ -1,5 +1,6 @@
 import requests
-from kernel_run.utils.jupyter import sanitize_nb
+import six
+
 from kernel_run.utils.misc import gen_hash, slugify
 
 API_URL = 'https://www.kaggle.com/api/v1'
@@ -12,14 +13,19 @@ class ApiError(Exception):
 
 def _pretty(res):
     """Make a human readable output from an HTML response"""
-    return '(HTTP ' + str(res.status_code) + ') ' + res.content
+    if isinstance(res.content, six.binary_type):
+        content = res.content.decode("utf-8")
+    else:
+        content = res.content
+
+    return '(HTTP ' + str(res.status_code) + ') ' + content
 
 
-def download_rawlink(link, strip_output=False):
+def download_rawlink(link):
     """Download a Jupyter notebook from a raw file link"""
     res = requests.get(link)
     if res.status_code == 200:
-        return sanitize_nb(res.text, strip_output)
+        return res.text
     else:
         raise ApiError(_pretty(res))
 

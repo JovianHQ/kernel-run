@@ -1,5 +1,5 @@
-import os
 import json
+import os
 
 HOME = os.path.expanduser('~')
 KAGGLE_DIR = HOME + '/.kaggle'
