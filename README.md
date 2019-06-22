@@ -93,3 +93,7 @@ def create_kernel(path_or_url, public=False, no_browser=False, new=False,
         strip_output (bool, optional): Clear output cells before uploading notebook.
     """
 ```
+
+## Credits
+
+Developed with love by the Jovian team ( https://www.jvn.io )! Contributions welcome.
