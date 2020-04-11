@@ -14,7 +14,7 @@ NEW_MSG = "Create a new kernel, if a kernel with the same name exists"
 BROWSER_MSG = "Don't open a browser window automatically"
 PREFIX_MSG = "Prefix added to kernel title to easy identification (defaults to 'kr/')"
 OUTPUT_MSG = "Clear output cells before uploading notebook"
-
+NAME_MSG = "Provide a name for kernel (defaults to filename)"
 
 def main():
     parser = argparse.ArgumentParser(
@@ -26,13 +26,15 @@ def main():
     parser.add_argument('--no-browser', help=BROWSER_MSG, action="store_true")
     parser.add_argument('--strip-output', help=OUTPUT_MSG, action="store_true")
     parser.add_argument('--prefix', help=PREFIX_MSG, default=DEFAULT_PREFIX)
+    parser.add_argument('--name', help=NAME_MSG)
     args = parser.parse_args()
     create_kernel(path_or_url=args.notebook_path_or_url,
                   public=args.public,
                   no_browser=args.no_browser,
                   new=args.new,
                   strip_output=args.strip_output,
-                  prefix=args.prefix)
+                  prefix=args.prefix,
+                  name=args.name)
 
 
 if __name__ == '__main__':

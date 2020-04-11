@@ -14,7 +14,7 @@ API_URL = 'https://www.kaggle.com/api/v1'
 
 
 def create_kernel(path_or_url, public=False, no_browser=False, new=False,
-                  strip_output=False, prefix=DEFAULT_PREFIX, creds_path=None):
+                  strip_output=False, prefix=DEFAULT_PREFIX, creds_path=None, name=None):
     """Instantly create and run a Kaggle kernel from a Jupyter notebook (local file or URL)
 
     Arguments:
@@ -39,6 +39,9 @@ def create_kernel(path_or_url, public=False, no_browser=False, new=False,
         fname = url_filename(path_or_url)
     else:
         fname, nbtext = read_nbfile(path_or_url)
+
+    if name is not None:
+        fname = name
 
     nbtext = sanitize_nb(nbtext, strip_output)
 
